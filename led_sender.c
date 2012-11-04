@@ -1,3 +1,12 @@
+
+/* 
+    Run this on an atmel or arduino microcontroller. 
+    Listens to a UART at 9600bps and converts a serial protocol into lights on the 
+    sparkfun LED Matrix backpack connected over SPI.
+    Check out https://github.com/bwhitman/rgb-backpack-controller
+*/
+
+
 #include <stdio.h>
 #include <avr/io.h>
 

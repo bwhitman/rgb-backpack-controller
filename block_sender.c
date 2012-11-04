@@ -1,4 +1,13 @@
 
+/* 
+    Run this on anything that can talk serial that is connected to an atmel or
+    arduino microcontroller.
+
+    Check out https://github.com/bwhitman/rgb-backpack-controller
+*/
+
+
+
 #include <stdio.h>    
 #include <fcntl.h>    
 #include <termios.h> 
