@@ -51,6 +51,8 @@ gcc -o block_sender block_sender.c
 draw_frame(fd, frame);
 ```
 
+* Lower level if you want: the atmel listens for bytes on the UART at 9600. Every time it gets a byte, it checks if it is 32. If it is, it starts the drawing pointer at position 0. If it's not, it splits the byte up into two 4-bit numbers, each one a palette index. After drawing two dots it incremements the position automatically. So you should send 33 bytes per frame, starting with the number 32 and then 64 pixels, each 4 bits.
+
 ## FAQ
 
 ### Why didn't you just use SPI, isn't it a waste to have 2 microcontrollers converting stuff back and forth
@@ -59,13 +61,31 @@ Have you tried to use SPI on a computer before, so annoying
 
 ### Can I increase the baud rate?
 
-Yeah, probably
+Probably. The UART might get in the way of the SPI. I haven't played with that too much and 9600 is fine for what I need right now.
 
 ### Can there be more colors?
 
-Yes -- my protocol kept it at 4 bits but you could change that. There's not too much variation in the colors and some of them flicker a lot, so I kept it safe.
+Yes -- my protocol kept it at 4 bits but you could change that. There's not too much variation in the colors and some of them flicker a lot, so I kept it safe. They are, in order (RED is 1, DKRED is 2, etc)
 
-
+```c
+// My lovely palette. 15 colors. RRRGGGBB
+#define CRC     0xF0 // should never be
+#define RED     0xE0
+#define DKRED   0x40
+#define ORANGE  0xE8
+#define YELLOW  0xFC
+#define GREEN   0x1C
+#define DKGREEN 0x0c
+#define TEAL    0x5E
+#define LTBLUE  0x1F
+#define BLUE    0x07
+#define DKBLUE  0x02
+#define PURPLE  0x46
+#define PINK    0xE3
+#define WHITE   0xFF
+#define GRAY    0x4A
+#define BLACK   0x00
+``` 
 
 
 
