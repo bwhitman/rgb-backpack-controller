@@ -26,13 +26,13 @@ avrdude -V -F -c stk500v2 -p m328p -P /dev/cu.usbmodem26211 -b 57600 -U flash:w:
 ## Controlling the matrix from anywhere
 
 * Hook up a serial connection between your atmel/arduino and whatever you want to control the LED Matrix from (since I'm using a Beagleboard, the serial port is already connected to the trainer as /dev/ttyO1)
-* With the avr-gcc toolchain somewhere, run make on this repo.
-* You'll have a file called led_sender.hex, flash it anyway you know how. Since I put that firmware on there above, I do this quickly after hitting reset:
+* Flash led_sender.hex anyway you know how. Since I put that firmware on my board above, I do this quickly after hitting reset:
 
 ```bash
 avrdude -V -F -c stk500v1 -p m328p -P /dev/ttyO1 -b 57600 -U flash:w:led_sender.hex 
 ```
 
+* (You can of course compile led_sender.c yourself if you want, i put the avr-gcc makefile in the repo too. But you shouldn't need to change it unless your pin numbers are different.)
 * On the computer you want to control the LED Matrix from, change the serial port name in block_sender.c 
 * Compile the block_sender.c:
 
