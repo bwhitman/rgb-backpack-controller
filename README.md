@@ -17,6 +17,7 @@ Runs a 9600bps "server" on the [Sparkfun LED Matrix backpack](https://www.sparkf
 * Put the ISP 6 pin cable of the programmer so that the ribbon cable goes away from the board
 * Get this [arduino boot firmware](http://arduino.googlecode.com/svn/trunk/hardware/arduino/bootloaders/atmega/ATmegaBOOT_168_atmega328_pro_8MHz.hex)
 * Program it to the board via your ISP using avrdude:
+
 ```bash
 avrdude -V -F -c stk500v2 -p m328p -P /dev/cu.usbmodem26211 -b 57600 -e -u -U lock:w:0x3f:m -U efuse:w:0x05:m -U hfuse:w:0xda:m -U lfuse:w:0xff:m
 avrdude -V -F -c stk500v2 -p m328p -P /dev/cu.usbmodem26211 -b 57600 -U flash:w:ATmegaBOOT_168_atmega328_pro_8MHz.hex -U lock:w:0x0f:m
