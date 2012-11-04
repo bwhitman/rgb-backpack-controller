@@ -17,9 +17,10 @@ Runs a 9600bps "server" on the [Sparkfun LED Matrix backpack](https://www.sparkf
 * Put the ISP 6 pin cable of the programmer so that the ribbon cable goes away from the board
 * Get this [arduino boot firmware](http://arduino.googlecode.com/svn/trunk/hardware/arduino/bootloaders/atmega/ATmegaBOOT_168_atmega328_pro_8MHz.hex)
 * Program it to the board via your ISP using avrdude:
-
-  avrdude -V -F -c stk500v2 -p m328p -P /dev/cu.usbmodem26211 -b 57600 -e -u -U lock:w:0x3f:m -U efuse:w:0x05:m -U hfuse:w:0xda:m -U lfuse:w:0xff:m
-  avrdude -V -F -c stk500v2 -p m328p -P /dev/cu.usbmodem26211 -b 57600 -U flash:w:ATmegaBOOT_168_atmega328_pro_8MHz.hex -U lock:w:0x0f:m
+```bash
+avrdude -V -F -c stk500v2 -p m328p -P /dev/cu.usbmodem26211 -b 57600 -e -u -U lock:w:0x3f:m -U efuse:w:0x05:m -U hfuse:w:0xda:m -U lfuse:w:0xff:m
+avrdude -V -F -c stk500v2 -p m328p -P /dev/cu.usbmodem26211 -b 57600 -U flash:w:ATmegaBOOT_168_atmega328_pro_8MHz.hex -U lock:w:0x0f:m
+```
 
 ## Controlling the matrix from anywhere
 
@@ -27,12 +28,16 @@ Runs a 9600bps "server" on the [Sparkfun LED Matrix backpack](https://www.sparkf
 * With the avr-gcc toolchain somewhere, run make on this repo.
 * You'll have a file called led_sender.hex, flash it anyway you know how. Since I put that firmware on there above, I do this quickly after hitting reset:
 
-  avrdude -V -F -c stk500v1 -p m328p -P /dev/ttyO1 -b 57600 -U flash:w:led_sender.hex 
+```bash
+avrdude -V -F -c stk500v1 -p m328p -P /dev/ttyO1 -b 57600 -U flash:w:led_sender.hex 
+```
 
 * On the computer you want to control the LED Matrix from, change the serial port name in block_sender.c 
 * Compile the block_sender.c:
 
-  gcc -o block_sender block_sender.c
+```bash
+gcc -o block_sender block_sender.c
+```
 
 * Run the block sender on the computer you want to control the LED Matrix from
 * It should look like this (in real life it's less blown out)
@@ -41,7 +46,9 @@ Runs a 9600bps "server" on the [Sparkfun LED Matrix backpack](https://www.sparkf
 
 * Now control your LED matrix at will. In block_sender you can see how it's done -- you fill up a char array with 64 bytes, each one a 4 bit number corresponding to the palette index. Then you call 
 
-  draw_frame(fd, frame);
+```c
+draw_frame(fd, frame);
+```
 
 ## FAQ
 
