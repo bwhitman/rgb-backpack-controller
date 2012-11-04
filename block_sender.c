@@ -19,11 +19,12 @@ int serialport_init(const char* serialport, speed_t brate);
 void draw_frame(int fd, char*frame);
 
 int main(int argc, char *argv[]) {
-
+    int offset = 0;
     // Obviously set up for your environment. 
     int fd = serialport_init("/dev/ttyO1", B9600);
 
-    // 64 entries, each one a palette index.
+    // frames are 64 entries, each one a palette index.
+    // this is 128 long because i animate it
     char frame[] = {
         1 ,2 ,3 ,4 ,5 ,6 ,7 ,8 ,
         9 ,10,11,12,13,14,15,15,
@@ -33,8 +34,21 @@ int main(int argc, char *argv[]) {
         9 ,10,11,12,13,14,15,15,
         1 ,2 ,3 ,4 ,5 ,6 ,7 ,8 ,
         9 ,10,11,12,13,14,15,15,
+        1 ,2 ,3 ,4 ,5 ,6 ,7 ,8 ,
+        9 ,10,11,12,13,14,15,15,
+        1 ,2 ,3 ,4 ,5 ,6 ,7 ,8 ,
+        9 ,10,11,12,13,14,15,15,
+        1 ,2 ,3 ,4 ,5 ,6 ,7 ,8 ,
+        9 ,10,11,12,13,14,15,15,
+        1 ,2 ,3 ,4 ,5 ,6 ,7 ,8 ,
+        9 ,10,11,12,13,14,15,15,
     };
-    draw_frame(fd, frame);
+    while(1) {
+        // animate the frame by incrementing an offset into it. the draw_frame function expects at least 64 bytes.
+        draw_frame(fd, &frame[offset]);
+        usleep(1000*50); // 50ms pause per frame
+        offset++; if(offset > 63) offset = 0;
+    }
 }
 
 // Take a 64-char long array of colors and convert into a buf for the LED board & write it to fd
